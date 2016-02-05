@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			* {
+				box-sizing: border-box;
+			}
+			
+			body {
+				margin: 0;
+				height: 100vh;
+			}
+			
+			canvas {
+				margin: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas">Selain ei tue canvas elementtiä</canvas>
+		<script src="jquery.min.js"></script>
+		<script>
+			var canvas = document.getElementById("canvas");
+			canvas.height = $(window).height();
+			canvas.width = $(window).width();
+			var width = canvas.width;
+			var height = canvas.height;
+			var ctx = canvas.getContext("2d");
+			var bgColor = "#FFFFFF";
+			var ballColor = "#000000";
+			var ballRadius = 10;
+			var mouse = {
+				x: canvas.width / 2,
+				y: canvas.height / 2
+			};
+			
+			var ball = {
+				x: 50,
+				y: 50
+			}
+			
+			canvas.addEventListener("mousemove", function(event){
+				var mousePos = getMousePos(canvas, event);
+				mouse.x = mousePos.x;
+				mouse.y = mousePos.y;
+			});
+			
+			drawBall();
+			
+			function moveBall()
+			{
+				var hitX = ball.x - mouse.x,
+				hitY = ball.y - mouse.y;
+				if (Math.abs(hitX) < ballRadius && Math.abs(hitY) < ballRadius)
+				{
+					if (hitX > 0 && hitY > 0)
+					{
+						
+					} 
+					else if (hitX < 0 && hitY < 0)
+					{
+						
+					}
+					else if (hitX < 0 && hitY > 0)
+					{
+					
+					}
+					else if (hitX > 0 && hitY < 0)
+					{
+						
+					}
+					else if (hitX === 0 && hitY < 0)
+					{
+					
+					}
+					else if (hitX === 0 && hitY > 0)
+					{
+					
+					}
+					else if (hitX > 0 && hitY === 0)
+					{
+					
+					}
+					else if (hitX < 0 && hitY === 0)
+					{
+					
+					}
+				}
+				ball.x++;
+				ball.y++;
+			}
+			
+			function drawBall()
+			{
+				clear();
+				ctx.beginPath();
+				ctx.arc(ball.x, ball.y, ballRadius, 0, 2 * Math.PI, false);
+				ctx.fillStyle = ballColor;
+				ctx.fill();
+				moveBall();
+				window.requestAnimationFrame(drawBall);
+			}
+			
+			function clear()
+			{
+				ctx.fillStyle = bgColor;
+				ctx.fillRect(0, 0, width, height);
+			}
+			
+			function getMousePos(canvas, event)
+			{
+				var rect = canvas.getBoundingClientRect();
+				return {
+					x: (event.clientX-rect.left)/(rect.right-rect.left)*canvas.width,
+					y: (event.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height
+				}
+			}
+ 		</script>
+	</body>
+</html>
