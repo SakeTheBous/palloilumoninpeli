@@ -17,17 +17,20 @@ var globalDirection = {
 	y: 0
 };
 
-var hitWallTime = Date.now();
-
 var ball = {
-	x: 500,
-	y: 250
+	x: 450,
+	y: 300
+};
+
+var boundaries = {
+	sx: 300,
+	sy: 150,
+	ex: 600,
+	ey: 450
 };
 
 canvas.addEventListener("mousemove", function(event){
-	var mousePos = getMousePos(canvas, event);
-	mouse.x = mousePos.x;
-	mouse.y = mousePos.y;
+	mouse = getMousePos(canvas, event);
 });
 
 drawBall();
@@ -42,7 +45,7 @@ function drawBall()
 {
 	clear();
 	ctx.fillStyle = "black";
-	ctx.rect(300,150,300,300);
+	ctx.rect(boundaries.sx, boundaries.sy, boundaries.ex - boundaries.sx, boundaries.ey - boundaries.sy);
 	ctx.stroke(); 
 	ctx.beginPath();
 	ctx.arc(ball.x, ball.y, ballRadius, 0, 2 * Math.PI, false);
@@ -56,26 +59,19 @@ function drawBall()
 		moveBall(hitX, hitY);
 		globalDirection.x = hitX;
 		globalDirection.y = hitY;
-	} else if ((ball.x + ballRadius) <= 300 || (ball.x + ballRadius) >= 600) {
-		var timestamp = Date.now();
-		if (timestamp - hitWallTime > 0) {
-			globalDirection.x = globalDirection.x * (-1);
-			moveBall(globalDirection.x, globalDirection.y);
-			console.log(globalDirection.x);
-			console.log(globalDirection.y);
-		}
-
-		hitWallTime = timestamp;
-	} else if ((ball.y + ballRadius) <= 150 || (ball.y + ballRadius) >= 450) {
-		var timestamp = Date.now();
-		if (timestamp - hitWallTime > 0) {
-			globalDirection.y = globalDirection.y * (-1);
-			moveBall(globalDirection.x, globalDirection.y);
-			console.log(globalDirection.x);
-			console.log(globalDirection.y);
-		}
-
-		hitWallTime = timestamp;
+	} else if (((ball.x - ballRadius) <= boundaries.sx && (ball.y - ballRadius) <= boundaries.sy) || 
+			((ball.x + ballRadius) >= boundaries.ex && (ball.y - ballRadius) <= boundaries.sy) || 
+			((ball.x - ballRadius) <= boundaries.sx && (ball.y + ballRadius) >= boundaries.ey) ||
+			((ball.x + ballRadius) >= boundaries.ex && (ball.y + ballRadius) >= boundaries.ey)) {
+		globalDirection.x = globalDirection.x * (-1);
+		globalDirection.y = globalDirection.y * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.x - ballRadius) <= 300 || (ball.x + ballRadius) >= 600) {
+		globalDirection.x = globalDirection.x * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.y - ballRadius) <= 150 || (ball.y + ballRadius) >= 450) {
+		globalDirection.y = globalDirection.y * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
 	} else {
 		moveBall(globalDirection.x, globalDirection.y);
 	}
