@@ -37,8 +37,8 @@ Vanhat pelialueen rajat
 var boundaries = {
 	sx: 100,
 	sy: 100,
-	ex: canvas.width - 100,
-	ey: canvas.height - 100
+	ex: canvas.width-100,
+	ey: canvas.height-100
 };
 
 /*
@@ -99,7 +99,7 @@ function drawBall()
 	*/
 	ctx.fillStyle = "black";
 	ctx.rect(boundaries.sx, boundaries.sy, boundaries.ex - boundaries.sx, boundaries.ey - boundaries.sy);
-	ctx.stroke();
+	ctx.stroke(); 
 	/*
 	Piirretään pallo
 	*/
@@ -133,6 +133,8 @@ function drawBall()
 	*/
 	var distance = calcDist(ball.x, ball.y, mouse.x, mouse.y);
 
+	
+
 	/*
 	Osuuko löyntipalloon (löyntipallo säde = 2x pallon säde)
 	*/
@@ -143,17 +145,27 @@ function drawBall()
 		moveBall(hitX, hitY, true);
 		globalDirection.x = hitX;
 		globalDirection.y = hitY;
-	} else if (((ball.x - ballRadius) <= boundaries.sx && (ball.y - ballRadius) <= boundaries.sy) || 
+	}  else if (((ball.x - ballRadius) <= boundaries.sx && (ball.y - ballRadius) <= boundaries.sy) || 
 			((ball.x + ballRadius) >= boundaries.ex && (ball.y - ballRadius) <= boundaries.sy) || 
 			((ball.x - ballRadius) <= boundaries.sx && (ball.y + ballRadius) >= boundaries.ey) ||
 			((ball.x + ballRadius) >= boundaries.ex && (ball.y + ballRadius) >= boundaries.ey)) {
 		globalDirection.x = globalDirection.x * (-1);
 		globalDirection.y = globalDirection.y * (-1);
 		moveBall(globalDirection.x, globalDirection.y);
-	} else if ((ball.x - ballRadius) <= boundaries.sx || (ball.x + ballRadius) >= boundaries.ex) {
+	} else if ((ball.x - ballRadius) <= boundaries.sx) {
+		ball.x = boundaries.sx + ballRadius;
 		globalDirection.x = globalDirection.x * (-1);
 		moveBall(globalDirection.x, globalDirection.y);
-	} else if ((ball.y - ballRadius) <= boundaries.sy || (ball.y + ballRadius) >= boundaries.ey) {
+	} else if ((ball.x + ballRadius) >= boundaries.ex) {
+		ball.x = boundaries.ex - ballRadius;
+		globalDirection.x = globalDirection.x * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.y - ballRadius) <= boundaries.sy) {
+		ball.y = boundaries.sy + ballRadius;
+		globalDirection.y = globalDirection.y * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.y + ballRadius) >= boundaries.ey) {
+		ball.y = boundaries.ey - ballRadius;
 		globalDirection.y = globalDirection.y * (-1);
 		moveBall(globalDirection.x, globalDirection.y);
 	} else {
