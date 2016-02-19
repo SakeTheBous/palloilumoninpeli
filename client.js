@@ -12,15 +12,27 @@ var mouse = {
 	y: canvas.height / 2
 };
 
+/*
+Suunta x,y
+*/
+
 var globalDirection = {
 	x: 0,
 	y: 0
 };
 
+/*
+Pallon x,y koordinaatit
+*/
+
 var ball = {
 	x: canvas.width / 2,
 	y: canvas.height / 2
 };
+
+/*
+Vanhat pelialueen rajat
+*/
 
 var boundaries = {
 	sx: 0,
@@ -29,20 +41,26 @@ var boundaries = {
 	ey: canvas.height
 };
 
-var lastSpeedCheck = {
-	x: 250,
-	y: 250,
-	timestamp: Date.now()
-};
+/*
+Osumakohta x,y koordinaatit
+*/
 
 var markX = 0;
 var markY = 0;
+
+/*
+Pallon nopeus
+*/
 
 var currSpeed = 0;
 
 canvas.addEventListener("mousemove", function(event) {
 	mouse = getMousePos(canvas, event);
 });
+
+/*
+Funktio joka liikuttaa palloa
+*/
 
 function moveBall(hitX, hitY, mousehit)
 {
@@ -56,45 +74,92 @@ function moveBall(hitX, hitY, mousehit)
 	friction();
 }
 
+/*
+Funktio hidastaa nopeutta
+*/
+
 function friction()
 {
 	globalDirection.x = globalDirection.x * 0.99;
 	globalDirection.y = globalDirection.y * 0.99;
 }
 
+/*
+Koko pelin logiikka
+*/
+
 function drawBall()
 {
+	/*
+	Tyhjennetään ruutu
+	*/
 	clear();
+	/*
+	Piirretään musta kehä
+	*/
 	ctx.fillStyle = "black";
 	ctx.rect(boundaries.sx, boundaries.sy, boundaries.ex - boundaries.sx, boundaries.ey - boundaries.sy);
 	ctx.stroke(); 
+	/*
+	Piirretään pelialueen raja
+	*/
 	ctx.beginPath();
 	ctx.arc(canvas.width / 2, canvas.height / 2, 300, 0, 2 * Math.PI, false);
 	ctx.fillStyle = "none";
 	ctx.stroke();
 	ctx.strokeStyle = 'none';
+	/*
+	Piirretään pallo
+	*/
 	ctx.beginPath();
 	ctx.arc(ball.x, ball.y, ballRadius, 0, 2 * Math.PI, false);
 	ctx.fillStyle = ballColor;
 	ctx.fill();
+	/*
+	Piirretään löyntipallo
+	*/
 	ctx.beginPath();
 	ctx.arc(mouse.x, mouse.y, ballRadius * 2, 0, 2 * Math.PI, false);
 	ctx.fillStyle = 'green';
 	ctx.fill();
+	/*
+	Yritys piirtää osumakohta
+	*/
 	ctx.fillStyle = "green";
 	ctx.fillRect(markX, markY, 1, 1);
 
+	/*
+	Tarkastetaan missä löyntipallo osuu palloon
+	Pallon X koordinaatti - hiiren X koordinaati + pallon säde
+	Pallon Y koordinaatti - hiiren Y koordinaati + pallon säde
+	*/
 	var hitX = ball.x - mouse.x + ballRadius,
 	hitY = ball.y - mouse.y + ballRadius;
 
+	/*
+	Lasketaan etäisyys pallon ja hiiren välillä
+	*/
 	var distance = calcDist(ball.x, ball.y, mouse.x, mouse.y);
+
+	/*
+	Etäisyys pelialueen keskipisteestä
+	*/
 	var distFromCenter = calcDist(canvas.width / 2, canvas.height / 2, ball.x, ball.y);
 
+	/*
+	Osuuko löyntipalloon (löyntipallo säde = 2x pallon säde)
+	*/
 	if (distance <= ballRadius * 3) {
+		/*
+		Pallo osui löyntipalloon
+		*/
 		moveBall(hitX, hitY, true);
 		globalDirection.x = hitX;
 		globalDirection.y = hitY;
 	} else if (distFromCenter >= 300 - ballRadius) {
+		/*
+		Osuu pelialueen reunaan
+		*/
 		for (var i=0; i<360; i++) {
 			if (ball.x + ballRadius >= 300 && ball.y + ballRadius >= 300) {
 				markX = ball.x + ballRadius;
@@ -123,13 +188,25 @@ function drawBall()
 	} else {
 		moveBall(globalDirection.x, globalDirection.y);
 	}
+
+	/*
+	Kutsuu drawBall-funktiota aina näytön päivittyessä
+	*/
 	window.requestAnimationFrame(drawBall);
 }
+
+/*
+Funktio joka tyhjentää näytön
+*/
 
 function clear()
 {
 	ctx.clearRect(0, 0, width, height);
 }
+
+/*
+Funktio joka laskee etäisyyden kahden pisteen välillä
+*/
 
 function calcDist(x1, y1, x2, y2)
 {
@@ -139,6 +216,10 @@ function calcDist(x1, y1, x2, y2)
 	return Math.sqrt(dx*dx + dy*dy);
 }
 
+/*
+Funktio joka hakee hiiren paikan näytöllä
+*/
+
 function getMousePos(canvas, event)
 {
 	var rect = canvas.getBoundingClientRect();
@@ -147,6 +228,10 @@ function getMousePos(canvas, event)
 		y: (event.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height
 	}
 }
+
+/*
+Funktio joka käynnistää pelin
+*/
 
 function init()
 {
