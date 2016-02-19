@@ -35,10 +35,10 @@ Vanhat pelialueen rajat
 */
 
 var boundaries = {
-	sx: 0,
-	sy: 0,
-	ex: canvas.width,
-	ey: canvas.height
+	sx: 100,
+	sy: 100,
+	ex: canvas.width - 100,
+	ey: canvas.height - 100
 };
 
 /*
@@ -99,15 +99,7 @@ function drawBall()
 	*/
 	ctx.fillStyle = "black";
 	ctx.rect(boundaries.sx, boundaries.sy, boundaries.ex - boundaries.sx, boundaries.ey - boundaries.sy);
-	ctx.stroke(); 
-	/*
-	Piirretään pelialueen raja
-	*/
-	ctx.beginPath();
-	ctx.arc(canvas.width / 2, canvas.height / 2, 300, 0, 2 * Math.PI, false);
-	ctx.fillStyle = "none";
 	ctx.stroke();
-	ctx.strokeStyle = 'none';
 	/*
 	Piirretään pallo
 	*/
@@ -142,11 +134,6 @@ function drawBall()
 	var distance = calcDist(ball.x, ball.y, mouse.x, mouse.y);
 
 	/*
-	Etäisyys pelialueen keskipisteestä
-	*/
-	var distFromCenter = calcDist(canvas.width / 2, canvas.height / 2, ball.x, ball.y);
-
-	/*
 	Osuuko löyntipalloon (löyntipallo säde = 2x pallon säde)
 	*/
 	if (distance <= ballRadius * 3) {
@@ -156,22 +143,6 @@ function drawBall()
 		moveBall(hitX, hitY, true);
 		globalDirection.x = hitX;
 		globalDirection.y = hitY;
-	} else if (distFromCenter >= 300 - ballRadius) {
-		/*
-		Osuu pelialueen reunaan
-		*/
-		for (var i=0; i<360; i++) {
-			if (ball.x + ballRadius >= 300 && ball.y + ballRadius >= 300) {
-				markX = ball.x + ballRadius;
-				markY = ball.y + ballRadius;
-			} else if (ball.x - ballRadius >= 300 && ball.y - ballRadius >= 300) {
-				markX = ball.x - ballRadius;
-				markY = ball.y - ballRadius;
-			}
-		}
-		globalDirection.x = globalDirection.x * (-1);
-		globalDirection.y = globalDirection.y * (-1);
-		moveBall(globalDirection.x, globalDirection.y);
 	} else if (((ball.x - ballRadius) <= boundaries.sx && (ball.y - ballRadius) <= boundaries.sy) || 
 			((ball.x + ballRadius) >= boundaries.ex && (ball.y - ballRadius) <= boundaries.sy) || 
 			((ball.x - ballRadius) <= boundaries.sx && (ball.y + ballRadius) >= boundaries.ey) ||
