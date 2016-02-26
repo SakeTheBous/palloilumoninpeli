@@ -65,8 +65,8 @@ Funktio joka liikuttaa palloa
 function moveBall(hitX, hitY, mousehit)
 {
 	if (mousehit) {
-		ball.x = ball.x + ((1 + currSpeed) * (0.5 * hitX));
-		ball.y = ball.y + ((1 + currSpeed) * (0.5 * hitY));
+		ball.x = ball.x + ((1.5 + currSpeed) * (0.5 * hitX));
+		ball.y = ball.y + ((1.5 + currSpeed) * (0.5 * hitY));
 	} else {
 		ball.x = ball.x + hitX;
 		ball.y = ball.y + hitY;
@@ -166,6 +166,14 @@ function drawBall()
 		moveBall(globalDirection.x, globalDirection.y);
 	} else if ((ball.y + ballRadius) >= boundaries.ey) {
 		ball.y = boundaries.ey - ballRadius;
+		globalDirection.y = globalDirection.y * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.x + ballRadius) == Math.abs(mouse.x + ballRadius * 2)) {
+		ball.x = mouse.x + ballRadius * 3;
+		globalDirection.x = globalDirection.x * (-1);
+		moveBall(globalDirection.x, globalDirection.y);
+	} else if ((ball.y + ballRadius) == Math.abs(mouse.y + ballRadius * 2)) {
+		ball.y = mouse.y + ballRadius * 3;
 		globalDirection.y = globalDirection.y * (-1);
 		moveBall(globalDirection.x, globalDirection.y);
 	} else {
