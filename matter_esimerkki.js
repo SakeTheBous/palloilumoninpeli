@@ -31,6 +31,7 @@ var engine = Engine.create({
 
 var playBall = Bodies.circle(400, 200, 20, {  frictionAir: 0, render: { fillStyle: '#3498DB', opacity: 0.5 } });
 
+var vino = Bodies.rectangle(800, 500, 600, 60, { isStatic: true, angle: -Math.PI * 0.04 });
 var floor = Bodies.rectangle(800, 1000, 1600, 60, { isStatic: true });
 var wallLeft = Bodies.rectangle(0, 500, 60, 1200, { isStatic: true });
 var wallRight = Bodies.rectangle(1600, 500, 60, 1200, { isStatic: true });
