@@ -8,7 +8,7 @@
   
 ## Käyttö:  
     
-**NodeJS asentaminen:** https://nodejs.org/en/download/package-manager/  
+**NodeJS asentaminen:** https://nodejs.org/en/download/  
   
 **Kirjastojen asentaminen:**  
 ```
