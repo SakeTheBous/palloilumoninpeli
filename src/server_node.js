@@ -35,6 +35,18 @@ var gameStarted = false;
 // Kaikki pelaajat, taulukko
 var players = [];
 
+//kulmat
+var corners = {
+    x_upperLeft: 0,
+    y_upperLeft: 0,
+    x_lowerLeft: 0,
+    y_lowerLeft: 800,
+    x_upperRight: 800,
+    y_upperRight: 0,
+    x_lowerRight: 800,
+    y_lowerRight: 800 
+};
+
 // App-objektiin laitettiin ylempänä express-serveri
 // .get()-funktiolla voidaan päättää mitä tapahtuu
 // kun selaimella mennään ensimmäisen parametrin mukaiseen
@@ -137,6 +149,18 @@ var wallRight = Matter.Bodies.rectangle(800, 500, 60, 1200, { isStatic: true });
 // Katto
 var roof = Matter.Bodies.rectangle(800, 0, 1600, 60, { isStatic: true });
 
+//Vasen alakulma
+var leftDown = Matter.Bodies.rectangle(corners.x_lowerLeft, corners.y_lowerLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
+
+//Vasen yläkulma
+var leftUp = Matter.Bodies.rectangle(corners.x_upperLeft, corners.y_upperLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
+
+//Oikea alakulma
+var rightDown = Matter.Bodies.rectangle(corners.x_lowerRight, corners.y_lowerRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
+
+//Oikea yläkulma
+var rightUp = Matter.Bodies.rectangle(corners.x_upperRight, corners.y_upperRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
+
 // Asetetaan painovoima, kimmoisuus jne..
 engine.world.gravity.x = 0;
 engine.world.gravity.y = 0;
@@ -147,9 +171,13 @@ floor.restitution = 1;
 wallLeft.restitution = 1;
 wallRight.restitution = 1;
 roof.restitution = 1;
+leftDown.restitution = 1;
+leftUp.restitution = 1;
+rightDown.restitution = 1;
+rightUp.restitution = 1;
 
 // Lisätään esineet maailmaan
-Matter.World.add(engine.world, [playBall, floor, wallLeft, wallRight, roof]);
+Matter.World.add(engine.world, [playBall, floor, wallLeft, wallRight, roof, leftDown, leftUp, rightDown, rightUp]);
 
 // Annetaan pelipallolle alkusijainti
 playBall.position = { x: 400, y: 210 };
