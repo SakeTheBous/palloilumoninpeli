@@ -35,6 +35,18 @@ var gameStarted = false;
 // Kaikki pelaajat, taulukko
 var players = [];
 
+//kulmat
+var corners = {
+    x_upperLeft: 0,
+    y_upperLeft: 0,
+    x_lowerLeft: 0,
+    y_lowerLeft: 800,
+    x_upperRight: 800,
+    y_upperRight: 0,
+    x_lowerRight: 800,
+    y_lowerRight: 800 
+};
+
 // App-objektiin laitettiin ylempänä express-serveri
 // .get()-funktiolla voidaan päättää mitä tapahtuu
 // kun selaimella mennään ensimmäisen parametrin mukaiseen
