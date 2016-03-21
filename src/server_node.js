@@ -138,16 +138,16 @@ var wallRight = Matter.Bodies.rectangle(800, 500, 60, 1200, { isStatic: true });
 var roof = Matter.Bodies.rectangle(800, 0, 1600, 60, { isStatic: true });
 
 //Vasen alakulma
-var leftDown = Bodies.rectangle(corners.x_lowerLeft, corners.y_lowerLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
+var leftDown = Matter.Bodies.rectangle(corners.x_lowerLeft, corners.y_lowerLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
 
 //Vasen yläkulma
-var leftUp = Bodies.rectangle(corners.x_upperLeft, corners.y_upperLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
+var leftUp = Matter.Bodies.rectangle(corners.x_upperLeft, corners.y_upperLeft, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
 
 //Oikea alakulma
-var rightDown = Bodies.rectangle(corners.x_lowerRight, corners.y_lowerRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
+var rightDown = Matter.Bodies.rectangle(corners.x_lowerRight, corners.y_lowerRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.25 });
 
 //Oikea yläkulma
-var rightUp = Bodies.rectangle(corners.x_upperRight, corners.y_upperRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
+var rightUp = Matter.Bodies.rectangle(corners.x_upperRight, corners.y_upperRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
 
 // Asetetaan painovoima, kimmoisuus jne..
 engine.world.gravity.x = 0;
