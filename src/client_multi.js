@@ -38,6 +38,57 @@ function animate()
     */
     clear();
     /*
+        Piirretään seinät
+    */
+    //Katto
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(width/3, 2);
+    ctx.lineTo(width/3 * 2, 2);
+    ctx.stroke();
+    //Vasen yläkulma
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(width/3, 2);
+    ctx.lineTo(2, height/3);
+    ctx.stroke();
+    //Vasen seinä
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(2, height/3);
+    ctx.lineTo(2, height/3 * 2);
+    ctx.stroke();
+    //Vasen alakulma
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(2, height/3 * 2);
+    ctx.lineTo(width/3, 798);
+    ctx.stroke();    
+    //Lattia
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(width/3, 798);
+    ctx.lineTo(width/3 * 2, 798);
+    ctx.stroke();
+    //Oikea alakulma
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(width/3 * 2, 798);
+    ctx.lineTo(798, height/3 * 2);
+    ctx.stroke();
+    //Oikea seinä
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(798, height/3 * 2);
+    ctx.lineTo(798, height/3);
+    ctx.stroke();
+    //Oikea yläkulma
+    ctx.beginPath();
+    ctx.lineWidth = 5;
+    ctx.moveTo(798, height/3);
+    ctx.lineTo(width/3 * 2, 2);
+    ctx.stroke();
+    /*
     Piirretään pallo
     */
     ctx.beginPath();
