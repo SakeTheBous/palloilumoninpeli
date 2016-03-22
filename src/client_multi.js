@@ -16,7 +16,7 @@ var mouse = {
 var playBall = {
     x: 600,
     y: 600,
-    radius: 10,
+    radius: 20,
     color: "black"
 };
 
@@ -38,13 +38,13 @@ function animate()
     */
     clear();
     /*
-        Piirretään seinät
+    Piirretään seinät
     */
     //Katto
     ctx.beginPath();
     ctx.lineWidth = 5;
-    ctx.moveTo(width/3, 2);
-    ctx.lineTo(width/3 * 2, 2);
+    ctx.moveTo(width/3, 27.5);
+    ctx.lineTo(width/3 * 2, 27.5);
     ctx.stroke();
     //Vasen yläkulma
     ctx.beginPath();
@@ -55,8 +55,8 @@ function animate()
     //Vasen seinä
     ctx.beginPath();
     ctx.lineWidth = 5;
-    ctx.moveTo(2, height/3);
-    ctx.lineTo(2, height/3 * 2);
+    ctx.moveTo(27.5, height/3);
+    ctx.lineTo(27.5, height/3 * 2);
     ctx.stroke();
     //Vasen alakulma
     ctx.beginPath();
@@ -67,8 +67,8 @@ function animate()
     //Lattia
     ctx.beginPath();
     ctx.lineWidth = 5;
-    ctx.moveTo(width/3, 798);
-    ctx.lineTo(width/3 * 2, 798);
+    ctx.moveTo(width/3, 772.5);
+    ctx.lineTo(width/3 * 2, 772.5);
     ctx.stroke();
     //Oikea alakulma
     ctx.beginPath();
@@ -79,8 +79,8 @@ function animate()
     //Oikea seinä
     ctx.beginPath();
     ctx.lineWidth = 5;
-    ctx.moveTo(798, height/3 * 2);
-    ctx.lineTo(798, height/3);
+    ctx.moveTo(772.5, height/3 * 2);
+    ctx.lineTo(772.5, height/3);
     ctx.stroke();
     //Oikea yläkulma
     ctx.beginPath();
