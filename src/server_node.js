@@ -1,17 +1,13 @@
 /*
 Otetaan käyttöön kirjastot:
-
 Express - 
 	http server kirjasto, käytetään vain lähinnä
 	tiedostojen lähettämiseen käyttäjälle
-
 http -
 	NodeJS:n oma http kirjasto
-
 Socket.io -
 	WebSocket kirjasto, käytetään websocketien 
 	lähettämiseen ja vastaanottamiseen
-
 Matter.js -
 	2D-fysiikka kirjasto, käytetään pelin fysiikaan
 */
@@ -95,14 +91,25 @@ io.on('connection', function(socket) {
         // Otetaan pelaajat-taulukon pituus, niin sitä ei tarvitse for-lauseessa
         // laskea kokoajan uudelleen
         var playersLen = players.length;
-
+        // Pelin sulkeneen pelaajan paikka pelaajat taulukossa
+        var playerIndex = null;
         // Käydään läpi kaikki pelaajat players-taulukosta ja mikäli ID vastaa
-        // WebSocketin sulkeneen pelaajan ID:tä, poistetaan pelaaja taulukosta
+        // WebSocketin sulkeneen pelaajan ID:tä, tallennetaan paikka playerIndexiin
         for (var i = 0; i < playersLen; i++) {
         	if (players[i].pid === id) {
-        		players.splice(i, 1);
+        		playerIndex = i;
         		break;
         	}
+        }
+
+        // Jos pelaaja löytyi poistetaan
+        if (playerIndex !== null)
+        {
+        	// Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
+        	Matter.Composite.remove(engine.world, players[i].ball);
+        	Matter.Composite.remove(engine.world, players[i].constraint);
+        	// Poistetaan pelaaja pelaajat taulukosta
+        	players.splice(playerIndex, 1);
         }
     });
 
@@ -203,7 +210,6 @@ function toggleGameState(quit)
 			/*
 				Käydään kaikki pelaajat läpi ja lisätään ne objektiin jossa jäsenet ovat pelaajien ID
 				nimisiä, jotka ovat myös itse objekteja, joilla on x ja y arvot
-
 				Esimerkiksi:
 				playersData = {
 					vwWRsdkSAld: {
@@ -239,18 +245,13 @@ function toggleGameState(quit)
 
 /*
 Player-luokka
-
 JavaScriptissä voidaan tehdä luokka funktiona,
 joka palauttaa objektin / structin tapaisen muuttujan.
 Tässä tapauksessa esim.
-
 var uusiPelaaja = new Player(3132);
-
 voitaisiin käyttää seuraavasti:
-
 uusiPelaaja.ball, olisi Matter.js pallo
 uusiPelaaja.constraint, olisi Matter.js Constraint
-
 Matter.js Constraint on ikäänkuin viiva joka vetää esinettä (bodyB) johonkin pisteeseen (pointA)
 Tässä tapauksessa pisteeseen jossa hiiri sijaitsee sillä hetkellä.
 Constraint siis vetää palloa hiiren sijaintiin
