@@ -183,7 +183,7 @@ leftUp.restitution = 1;
 rightDown.restitution = 1;
 rightUp.restitution = 1;
 playBall.restitution = 0.5;
-Matter.Body.setMass(playBall, 50);
+Matter.Body.setMass(playBall, 10);
 
 // Lisätään esineet maailmaan
 Matter.World.add(engine.world, [playBall, floor, wallLeft, wallRight, roof, leftDown, leftUp, rightDown, rightUp]);
