@@ -260,6 +260,7 @@ function Player(pid)
 {
 	this.pid = pid;
 	this.ball = Matter.Bodies.circle(400, 400, 30, { frictionAir: 0 });
+	this.ball.restitution = 0.75;
 	this.constraint = Matter.Constraint.create({
 		pointA: { x: 500, y: 400 },
 		bodyB: this.ball,
