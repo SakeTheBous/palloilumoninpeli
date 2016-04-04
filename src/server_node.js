@@ -182,7 +182,7 @@ leftDown.restitution = 1;
 leftUp.restitution = 1;
 rightDown.restitution = 1;
 rightUp.restitution = 1;
-playBall.restitution = 0.75;
+playBall.restitution = 0.1;
 
 // Lisätään esineet maailmaan
 Matter.World.add(engine.world, [playBall, floor, wallLeft, wallRight, roof, leftDown, leftUp, rightDown, rightUp]);
@@ -261,7 +261,7 @@ function Player(pid)
 {
 	this.pid = pid;
 	this.ball = Matter.Bodies.circle(400, 400, 30, { frictionAir: 0 });
-	this.ball.restitution = 0.5;
+	this.ball.restitution = 0.1;
 	this.constraint = Matter.Constraint.create({
 		pointA: { x: 500, y: 400 },
 		bodyB: this.ball,
