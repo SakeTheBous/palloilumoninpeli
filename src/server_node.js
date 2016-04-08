@@ -381,6 +381,7 @@ function Player(pid)
     this.pid = pid;
     for (var i = 0; i < 8; i++) {
         if (gameAreas[i].pid == null) {
+            console.log("asd");
             gameAreas[i].pid = pid;
             var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
 
