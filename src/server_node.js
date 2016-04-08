@@ -43,6 +43,18 @@ var corners = {
     y_lowerRight: 800 
 };
 
+// Värit
+var colors = [
+    "#FF5722",
+    "#009688",
+    "#E91E63",
+    "#03A9F4",
+    "#002147",
+    "#CFDC00",
+    "#030820",
+    "#01FF70"
+];
+
 // App-objektiin laitettiin ylempänä express-serveri
 // .get()-funktiolla voidaan päättää mitä tapahtuu
 // kun selaimella mennään ensimmäisen parametrin mukaiseen
@@ -114,7 +126,7 @@ io.on('connection', function(socket) {
         }
 
         // Jos pelaaja löytyi poistetaan
-        if (playerIndex !== null)
+        if (playerIndex !== null && typeof players[playerIndex] !== 'undefined')
         {
             // Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
             Matter.Composite.remove(engine.world, players[i].ball);
@@ -348,19 +360,23 @@ function toggleGameState(quit)
             */
             var playersAmount = players.length;
             var playersData = {};
+            var ballsData = {};
+
             io.sockets.emit('update', playBall.position);
+
             for (var i=0; i < playersAmount; i++) {
                 // Jos indexillä oleva pelaaja on olemassa, tässä siitä syystä että jos pelaaja
                 // poistetaan samalla kun tämä loop on käynnissä, saattaa tulla index undefined error
                 // jos pelaaja on ehditty poistamaan
                 if (typeof players[i] !== 'undefined') {
                     // Lisätään pelaajan sijainti tiedot playersData objektiin
-                    playersData[players[i].pid] = players[i].ball.position;
+                    playersData[players[i].pid] = { pos: players[i].ball.position, color: players[i].color };
                 }
             }
 
             // Lähetetään playersData kaikille WebSocket-yhteyksille
             io.sockets.emit('update_players', playersData);
+            // Lähetetään pelialue data kaikille
             io.sockets.emit('update_areas', gameAreas);
         }, 10);
     } else if (quit) {
@@ -390,6 +406,7 @@ function Player(pid)
     this.spawnX = null;
     this.spawnY = null;
     this.pid = pid;
+    this.color = null;
     this.initialize = function() {
         for (var i = 0; i < 8; i++) {
             if (gameAreas[i].pid == null) {
@@ -411,7 +428,7 @@ function Player(pid)
                     tmpY = tmpY + 20;
                 }
                 this.spawnY = tmpY;
-
+                this.color = colors[i];
                 break;
             }
         }

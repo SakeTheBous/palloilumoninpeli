@@ -131,8 +131,8 @@ function animate()
     var othersLen = others.length;
     for (var i = 0; i < othersLen; i++) {
         ctx.beginPath();
-        ctx.arc(others[i].x, others[i].y, 30, 0, 2 * Math.PI, false);
-        ctx.fillStyle = 'cyan';
+        ctx.arc(others[i].pos.x, others[i].pos.y, 30, 0, 2 * Math.PI, false);
+        ctx.fillStyle = others[i].color;
         ctx.fill();
     }
 
@@ -237,8 +237,9 @@ socket.on('update_players', function(players) {
             // Jos jäsen on sama kuin pelaajan oma ID
             if (property === socket.io.engine.id) {
                 // Oma pallon sijainti päivitetään, players
-                playerBall.x = players[socket.io.engine.id].x;
-                playerBall.y = players[socket.io.engine.id].y;
+                playerBall.x = players[socket.io.engine.id].pos.x;
+                playerBall.y = players[socket.io.engine.id].pos.y;
+                playerBall.color = players[socket.io.engine.id].color;
             // Muutoin kyseessä vastustajan pallo
             } else {
                 // Lisätään muiden pelaajien taulukon perälle
