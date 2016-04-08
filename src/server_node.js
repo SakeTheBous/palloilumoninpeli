@@ -380,6 +380,7 @@ function Player(pid)
     this.spawnY = null;
     this.pid = pid;
     for (var i = 0; i < 8; i++) {
+        console.log(gameAreas[i].pid);
         if (gameAreas[i].pid == null) {
             console.log("asd");
             gameAreas[i].pid = pid;
