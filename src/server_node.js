@@ -75,8 +75,6 @@ io.on('connection', function(socket) {
     // Tehdään uusi Player-luokka pelaajalle 
     // (luokka on lähes täysin sama asia kuin object tai struct C# puolella)
     var player = new Player(id);
-    
-    player.initialize();
 
     // Lisätään juuri tehty Player-luokka pelaajien taulukkoon
     players.push(player);
@@ -100,6 +98,17 @@ io.on('connection', function(socket) {
         for (var i = 0; i < playersLen; i++) {
             if (players[i].pid === id) {
                 playerIndex = i;
+                break;
+            }
+        }
+
+        // Käydään läpi pelialueet ja poistetaan pelaaja pelialueelta jos ID vastaa
+        // WebSocketin sulkeneen pelaajan ID:tä
+        var areasLen = gameAreas.length;
+        for (var i = 0; i < areasLen; i++) {
+            if (gameAreas[i].pid === id) {
+                gameAreas[i].pid = null;
+
                 break;
             }
         }
@@ -252,7 +261,7 @@ for (var i=0; i<8; i++) {
                 },
                 leftX: 800 / 3 * 2 + 24,
                 rightX: 772.5,
-                leftY: 27.5,
+                leftY: 772.5,
                 rightY: 800 / 3 * 2 + 24
             });
             break;
@@ -383,28 +392,31 @@ function Player(pid)
     this.pid = pid;
     this.initialize = function() {
         for (var i = 0; i < 8; i++) {
-        if (gameAreas[i].pid == null) {
-            gameAreas[i].pid = pid;
-            var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
+            if (gameAreas[i].pid == null) {
+                gameAreas[i].pid = pid;
+                var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
 
-            if (tmpX == 772.5) {
-                tmpX = tmpX - 20;
-            } else if (tmpX == 27.5) {
-                tmpX = tmpX + 20;
+                if (tmpX == 772.5) {
+                    tmpX = tmpX - 20;
+                } else if (tmpX == 27.5) {
+                    tmpX = tmpX + 20;
+                }
+                this.spawnX = tmpX;
+
+                var tmpY = (gameAreas[i].leftY + gameAreas[i].rightY) / 2;
+
+                if (tmpY == 772.5) {
+                    tmpY = tmpY - 20;
+                } else if (tmpY == 27.5) {
+                    tmpY = tmpY + 20;
+                }
+                this.spawnY = tmpY;
+
+                break;
             }
-            this.spawnX = tmpX;
-
-            var tmpY = (gameAreas[i].leftY + gameAreas[i].rightY) / 2;
-
-            if (tmpY == 772.5) {
-                tmpY = tmpY - 20;
-            } else if (tmpY == 27.5) {
-                tmpY = tmpY + 20;
-            }
-            this.spawnY = tmpY;
         }
-    }
     };
+    this.initialize();
     this.ball = Matter.Bodies.circle(this.spawnX, this.spawnY, 30, { frictionAir: 0 });
     this.constraint = Matter.Constraint.create({
         pointA: { x: this.spawnX, y: this.spawnY },
