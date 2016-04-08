@@ -379,6 +379,7 @@ function Player(pid)
     this.spawnX = null;
     this.spawnY = null;
     this.pid = pid;
+    console.log("jou");
     for (var i = 0; i < 8; i++) {
         console.log(gameAreas[i].pid);
         if (gameAreas[i].pid == null) {
