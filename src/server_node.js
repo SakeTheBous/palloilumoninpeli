@@ -1,15 +1,15 @@
 /*
 Otetaan käyttöön kirjastot:
 Express - 
-	http server kirjasto, käytetään vain lähinnä
-	tiedostojen lähettämiseen käyttäjälle
+    http server kirjasto, käytetään vain lähinnä
+    tiedostojen lähettämiseen käyttäjälle
 http -
-	NodeJS:n oma http kirjasto
+    NodeJS:n oma http kirjasto
 Socket.io -
-	WebSocket kirjasto, käytetään websocketien 
-	lähettämiseen ja vastaanottamiseen
+    WebSocket kirjasto, käytetään websocketien 
+    lähettämiseen ja vastaanottamiseen
 Matter.js -
-	2D-fysiikka kirjasto, käytetään pelin fysiikaan
+    2D-fysiikka kirjasto, käytetään pelin fysiikaan
 */
 var app = require('express')();
 var http = require('http').Server(app);
@@ -58,8 +58,8 @@ app.get('/', function(req, res) {
 // Sama kuin ylempänä, mutta kun käyttäjä pyytää tässä client_multi.js
 // tiedostoa, jossa on siis käyttäjän puolen JavaScript
 app.get('/client_multi.js', function(req, res) {
-	// Lähetetään siis takaisin JavaScript-tiedosto client_multi.js
-	res.sendfile('client_multi.js');
+    // Lähetetään siis takaisin JavaScript-tiedosto client_multi.js
+    res.sendfile('client_multi.js');
 });
 
 // io on muuttuja, jossa on Socket.io kirjasto
@@ -67,8 +67,8 @@ app.get('/client_multi.js', function(req, res) {
 // kun uusi WebSocket-yhteys muodostuu
 // parametrinä annetussa funktiossa taas on parametrinä itse kyseinen WebSocket
 io.on('connection', function(socket) {
-	// Tallennetaan pelaajan ID
-	var id = socket.id.substring(2);
+    // Tallennetaan pelaajan ID
+    var id = socket.id.substring(2);
 
     console.log('Pelaaja liittyi peliin, ID : ' + id);
     
@@ -96,40 +96,40 @@ io.on('connection', function(socket) {
         // Käydään läpi kaikki pelaajat players-taulukosta ja mikäli ID vastaa
         // WebSocketin sulkeneen pelaajan ID:tä, tallennetaan paikka playerIndexiin
         for (var i = 0; i < playersLen; i++) {
-        	if (players[i].pid === id) {
-        		playerIndex = i;
-        		break;
-        	}
+            if (players[i].pid === id) {
+                playerIndex = i;
+                break;
+            }
         }
 
         // Jos pelaaja löytyi poistetaan
         if (playerIndex !== null)
         {
-        	// Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
-        	Matter.Composite.remove(engine.world, players[i].ball);
-        	Matter.Composite.remove(engine.world, players[i].constraint);
-        	// Poistetaan pelaaja pelaajat taulukosta
-        	players.splice(playerIndex, 1);
+            // Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
+            Matter.Composite.remove(engine.world, players[i].ball);
+            Matter.Composite.remove(engine.world, players[i].constraint);
+            // Poistetaan pelaaja pelaajat taulukosta
+            players.splice(playerIndex, 1);
         }
     });
 
     // Kun WebSocket saa 'client_update' tapahtuman, laukaisee seuraavan funktion
     socket.on('client_update', function(player) {
-    	var playersAmount = players.length;
+        var playersAmount = players.length;
 
-    	// Käydään läpi kaikki pelaajat ja jos ID vastaa WebSocket-tapahtuman ID:tä
-    	// päivitetään pelaajan pallon sijaintia, pallon sijainti selitetään alempana
-    	// Player-luokan kohdalla
-    	for (var i=0; i < playersAmount; i++) {
-    		if (players[i].pid === player.pid) {
-    			players[i].constraint.pointA = player.pos;
-    		}
-    	}
+        // Käydään läpi kaikki pelaajat ja jos ID vastaa WebSocket-tapahtuman ID:tä
+        // päivitetään pelaajan pallon sijaintia, pallon sijainti selitetään alempana
+        // Player-luokan kohdalla
+        for (var i=0; i < playersAmount; i++) {
+            if (players[i].pid === player.pid) {
+                players[i].constraint.pointA = player.pos;
+            }
+        }
     });
 
     // Kun WebSocket saa 'pause_game' tapahtuman, laukaisee seuraavan funktion
     socket.on('pause_game', function() {
-    	toggleGameState(true);
+        toggleGameState(true);
     });
 });
 
@@ -168,6 +168,121 @@ var rightDown = Matter.Bodies.rectangle(corners.x_lowerRight, corners.y_lowerRig
 //Oikea yläkulma
 var rightUp = Matter.Bodies.rectangle(corners.x_upperRight, corners.y_upperRight, 500, 385, { isStatic: true, angle: -Math.PI * 0.75 });
 
+// Pelialueet taulukko
+
+var gameAreas = [];
+
+// Pelialueiden määrittely, määritetään rajapisteet
+
+for (var i=0; i<8; i++) {
+    switch (i) {
+        case 0:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 800 / 3 * 2 + 24,
+                rightX: 800 / 3 - 24,
+                leftY: 27.5,
+                rightY: 27.5
+            });
+            break;
+        case 1:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 800 / 3 - 24,
+                rightX: 800 / 3 * 2 + 24,
+                leftY: 772.5,
+                rightY: 772.5
+            });
+            break;
+        case 2:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 27.5,
+                rightX: 27.5,
+                leftY: 800 / 3 - 24,
+                rightY: 800 / 3 * 2 + 24
+            });
+            break;
+        case 3:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 772.5,
+                rightX: 772.5,
+                leftY: 800 / 3 * 2 + 24,
+                rightY: 800 / 3 - 24
+            });
+            break;
+        case 4:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 800 / 3 - 24,
+                rightX: 27.5,
+                leftY: 27.5,
+                rightY: 800 / 3 - 24
+            });
+            break;
+        case 5:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 800 / 3 * 2 + 24,
+                rightX: 772.5,
+                leftY: 27.5,
+                rightY: 800 / 3 * 2 + 24
+            });
+            break;
+        case 6:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 772.5,
+                rightX: 800 / 3 * 2 + 24,
+                leftY: 800 / 3 - 24,
+                rightY: 27.5
+            });
+            break;
+        case 7:
+            gameAreas.push({
+                pid: null,
+                center: {
+                    x: 400,
+                    y: 400
+                },
+                leftX: 27.5,
+                rightX: 800 / 3 - 24,
+                leftY: 800 / 3 * 2 + 24,
+                rightY: 772.5
+            });
+            break;
+    }
+}
+
 // Asetetaan painovoima, kimmoisuus jne..
 engine.world.gravity.x = 0;
 engine.world.gravity.y = 0;
@@ -196,53 +311,54 @@ Funktio, joka käynnistää pelin tai pausettaa pelin mikäli peli on käynniss�
 */
 function toggleGameState(quit)
 {
-	// Jos peli ei ole käynnissä eikä haluta pausettaa peliä
-	if (!gameStarted && !quit) {
-		gameStarted = true;
-		console.log("----- Aloitetaan peli -----");
+    // Jos peli ei ole käynnissä eikä haluta pausettaa peliä
+    if (!gameStarted && !quit) {
+        gameStarted = true;
+        console.log("----- Aloitetaan peli -----");
 
-		// Aloitetaan loop, joka päivittää esineiden sijaintia ja lähettää ne clienteille
-		gameLoop = setInterval(function() {
+        // Aloitetaan loop, joka päivittää esineiden sijaintia ja lähettää ne clienteille
+        gameLoop = setInterval(function() {
 
-			// Alla olevat kolme riviä päivittävät pelimaailmaa
-			Matter.Events.trigger(engine, 'tick', { timestamp: engine.timing.timestamp });
-			Matter.Engine.update(engine, engine.timing.delta);
-			Matter.Events.trigger(engine, 'afterTick', { timestamp: engine.timing.timestamp });
+            // Alla olevat kolme riviä päivittävät pelimaailmaa
+            Matter.Events.trigger(engine, 'tick', { timestamp: engine.timing.timestamp });
+            Matter.Engine.update(engine, engine.timing.delta);
+            Matter.Events.trigger(engine, 'afterTick', { timestamp: engine.timing.timestamp });
 
-			/*
-				Käydään kaikki pelaajat läpi ja lisätään ne objektiin jossa jäsenet ovat pelaajien ID
-				nimisiä, jotka ovat myös itse objekteja, joilla on x ja y arvot
-				Esimerkiksi:
-				playersData = {
-					vwWRsdkSAld: {
-						x: 10,
-						y: 10
-					}
-				};
-			*/
-			var playersAmount = players.length;
-			var playersData = {};
-			io.sockets.emit('update', playBall.position);
-			for (var i=0; i < playersAmount; i++) {
-				// Jos indexillä oleva pelaaja on olemassa, tässä siitä syystä että jos pelaaja
-				// poistetaan samalla kun tämä loop on käynnissä, saattaa tulla index undefined error
-				// jos pelaaja on ehditty poistamaan
-				if (typeof players[i] !== 'undefined') {
-					// Lisätään pelaajan sijainti tiedot playersData objektiin
-					playersData[players[i].pid] = players[i].ball.position;
-				}
-			}
+            /*
+                Käydään kaikki pelaajat läpi ja lisätään ne objektiin jossa jäsenet ovat pelaajien ID
+                nimisiä, jotka ovat myös itse objekteja, joilla on x ja y arvot
+                Esimerkiksi:
+                playersData = {
+                    vwWRsdkSAld: {
+                        x: 10,
+                        y: 10
+                    }
+                };
+            */
+            var playersAmount = players.length;
+            var playersData = {};
+            io.sockets.emit('update', playBall.position);
+            for (var i=0; i < playersAmount; i++) {
+                // Jos indexillä oleva pelaaja on olemassa, tässä siitä syystä että jos pelaaja
+                // poistetaan samalla kun tämä loop on käynnissä, saattaa tulla index undefined error
+                // jos pelaaja on ehditty poistamaan
+                if (typeof players[i] !== 'undefined') {
+                    // Lisätään pelaajan sijainti tiedot playersData objektiin
+                    playersData[players[i].pid] = players[i].ball.position;
+                }
+            }
 
-			// Lähetetään playersData kaikille WebSocket-yhteyksille
-			io.sockets.emit('update_players', playersData);
-		}, 10);
-	} else if (quit) {
-		// Pausetetaan peli
-		console.log("----- Pausetetaan peli -----");
-		gameStarted = false;
-		// Suljetaan gameLoop, joka tehtiin setIntervalilla, clearInterval lopettaa sen
-		clearInterval(gameLoop);
-	}
+            // Lähetetään playersData kaikille WebSocket-yhteyksille
+            io.sockets.emit('update_players', playersData);
+            io.sockets.emit('update_areas', gameAreas);
+        }, 10);
+    } else if (quit) {
+        // Pausetetaan peli
+        console.log("----- Pausetetaan peli -----");
+        gameStarted = false;
+        // Suljetaan gameLoop, joka tehtiin setIntervalilla, clearInterval lopettaa sen
+        clearInterval(gameLoop);
+    }
 }
 
 /*
@@ -260,11 +376,11 @@ Constraint siis vetää palloa hiiren sijaintiin
 */
 function Player(pid)
 {
-	this.pid = pid;
-	this.ball = Matter.Bodies.circle(400, 400, 30, { frictionAir: 0 });
-	this.constraint = Matter.Constraint.create({
-		pointA: { x: 500, y: 400 },
-		bodyB: this.ball,
-		length: 1
-	});
+    this.pid = pid;
+    this.ball = Matter.Bodies.circle(400, 400, 30, { frictionAir: 0 });
+    this.constraint = Matter.Constraint.create({
+        pointA: { x: 500, y: 400 },
+        bodyB: this.ball,
+        length: 1
+    });
 }
