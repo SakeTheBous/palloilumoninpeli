@@ -379,11 +379,9 @@ function Player(pid)
     this.spawnX = null;
     this.spawnY = null;
     this.pid = pid;
-    console.log("jou");
-    for (var i = 0; i < 8; i++) {
-        console.log(gameAreas[i].pid);
+    this.initialize = function() {
+        for (var i = 0; i < 8; i++) {
         if (gameAreas[i].pid == null) {
-            console.log("asd");
             gameAreas[i].pid = pid;
             var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
 
@@ -404,6 +402,7 @@ function Player(pid)
             this.spawnY = tmpY;
         }
     }
+    };
     this.ball = Matter.Bodies.circle(this.spawnX, this.spawnY, 30, { frictionAir: 0 });
     this.constraint = Matter.Constraint.create({
         pointA: { x: this.spawnX, y: this.spawnY },
