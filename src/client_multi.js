@@ -31,6 +31,9 @@ var playerBall = {
 // Muut pelaajat taulukossa, tyhjä aluksi
 var others = [];
 
+// Pelialueet client puolella
+var gameAreas = [];
+
 function animate()
 {
     /*
@@ -112,6 +115,11 @@ function animate()
     /*
     Piiretään muiden pelaajien löyntipallot serverillä
     */
+    var gameAreasLen = gameAreas.length;
+    for (var i = 0; i < gameAreasLen; i++) {
+        drawAreas(gameAreas[i]);
+    }
+
     var othersLen = others.length;
     for (var i = 0; i < othersLen; i++) {
         ctx.beginPath();
@@ -130,6 +138,27 @@ Funktio joka tyhjentää piirtoalueen
 function clear()
 {
     ctx.clearRect(0, 0, width, height);
+}
+
+/*
+Funktio joka piirtää pelialueet
+*/
+function drawAreas(area)
+{
+    // Vasen reuna
+    ctx.beginPath();
+    ctx.lineWidth = 2.5;
+    ctx.moveTo(area.center.x, area.center.y);
+    ctx.lineTo(area.leftX, area.leftY);
+    ctx.strokeStyle = "#FEFEFE";
+    ctx.stroke();
+    // Oikea reuna
+    ctx.beginPath();
+    ctx.lineWidth = 2.5;
+    ctx.moveTo(area.center.x, area.center.y);
+    ctx.lineTo(area.rightX, area.rightY);
+    ctx.strokeStyle = "#FEFEFE";
+    ctx.stroke();
 }
 
 /*
@@ -182,9 +211,7 @@ jäsen vWslDXkdwyKLFs jota voisi käyttää seuraavasti: players.vWslDXkdwyKLFs
 JavaScriptissä voi käyttää objektia myös seuraavasti: players[vWslDXkdwyKLFs].
 Jokainen jäsen on itsessään myös objekti jolla on jäsenet x ja y.
 Eli players.vWslDXkdwyKLFs.x ja players.vWslDXkdwyKLFs.y.
-
 Jos helpottaa niin näin tältä players objekti näyttäisi tässä tapauksessa:
-
 var players = {
     vWslDXkdwyKLFs: {
         x: 5,
@@ -211,6 +238,10 @@ socket.on('update_players', function(players) {
             }
         }
     }
+});
+
+socket.on('update_areas', function(areas) {
+    gameAreas = areas;
 });
 
 // Käynnistetään peli
