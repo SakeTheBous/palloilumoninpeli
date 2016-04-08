@@ -376,10 +376,34 @@ Constraint siis vetää palloa hiiren sijaintiin
 */
 function Player(pid)
 {
+    this.spawnX = null;
+    this.spawnY = null;
     this.pid = pid;
-    this.ball = Matter.Bodies.circle(400, 400, 30, { frictionAir: 0 });
+    for (var i = 0; i < 8; i++) {
+        if (gameAreas[i].pid == null) {
+            gameAreas[i].pid = pid;
+            var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
+
+            if (tmpX == 772.5) {
+                tmpX = tmpX - 20;
+            } else if (tmpX == 27.5) {
+                tmpX = tmpX + 20;
+            }
+            this.spawnX = tmpX;
+
+            var tmpY = (gameAreas[i].leftY + gameAreas[i].rightY) / 2;
+
+            if (tmpY == 772.5) {
+                tmpY = tmpY - 20;
+            } else if (tmpY == 27.5) {
+                tmpY = tmpY + 20;
+            }
+            this.spawnY = tmpY;
+        }
+    }
+    this.ball = Matter.Bodies.circle(this.spawnX, this.spawnY, 30, { frictionAir: 0 });
     this.constraint = Matter.Constraint.create({
-        pointA: { x: 500, y: 400 },
+        pointA: { x: this.spawnX, y: this.spawnY },
         bodyB: this.ball,
         length: 1
     });
