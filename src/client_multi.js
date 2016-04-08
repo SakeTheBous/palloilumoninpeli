@@ -48,27 +48,27 @@ function animate()
     ctx.lineWidth = 5;
     ctx.moveTo(width/3 - 24, 27.5);
     ctx.lineTo(width/3 * 2 + 24, 27.5);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     //Vasen yläkulma
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.moveTo(width/3 - 24, 27.5);
     ctx.lineTo(27.5, height/3 - 24);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     //Vasen seinä
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.moveTo(27.5, height/3 - 24);
     ctx.lineTo(27.5, height/3 * 2 + 24);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     //Vasen alakulma
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.moveTo(27.5, height/3 * 2 + 24);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.lineTo(width/3 - 24, 772.5);
     ctx.stroke();    
     //Lattia
@@ -76,20 +76,20 @@ function animate()
     ctx.lineWidth = 5;
     ctx.moveTo(width/3 - 24, 772.5);
     ctx.lineTo(width/3 * 2 + 24, 772.5);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     //Oikea alakulma
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.moveTo(width/3 * 2 + 24, 772.5);
     ctx.lineTo(772.5, height/3 * 2 + 24);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     //Oikea seinä
     ctx.beginPath();
     ctx.lineWidth = 5;
     ctx.moveTo(772.5, height/3 * 2 +24);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.lineTo(772.5, height/3 - 24);
     ctx.stroke();
     //Oikea yläkulma
@@ -97,7 +97,7 @@ function animate()
     ctx.lineWidth = 5;
     ctx.moveTo(772.5, height/3 - 24);
     ctx.lineTo(width/3 * 2 + 24, 27.5);
-    ctx.strokeStyle("black")
+    ctx.strokeStyle = "black";
     ctx.stroke();
     /*
     Piirretään pallo
