@@ -75,6 +75,8 @@ io.on('connection', function(socket) {
     // Tehdään uusi Player-luokka pelaajalle 
     // (luokka on lähes täysin sama asia kuin object tai struct C# puolella)
     var player = new Player(id);
+    
+    player.initialize();
 
     // Lisätään juuri tehty Player-luokka pelaajien taulukkoon
     players.push(player);
