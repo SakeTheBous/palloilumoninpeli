@@ -146,6 +146,7 @@ io.on('connection', function(socket) {
         for (var i=0; i < playersAmount; i++) {
             if (players[i].pid === player.pid) {
                 players[i].constraint.pointA = player.pos;
+                players[i].name = player.name;
             }
         }
     });
@@ -370,7 +371,7 @@ function toggleGameState(quit)
                 // jos pelaaja on ehditty poistamaan
                 if (typeof players[i] !== 'undefined') {
                     // Lisätään pelaajan sijainti tiedot playersData objektiin
-                    playersData[players[i].pid] = { pos: players[i].ball.position, color: players[i].color };
+                    playersData[players[i].pid] = { pos: players[i].ball.position, name: players[i].name, color: players[i].color };
                 }
             }
 
@@ -407,6 +408,7 @@ function Player(pid)
     this.spawnY = null;
     this.pid = pid;
     this.color = null;
+    this.name = "--";
     this.initialize = function() {
         for (var i = 0; i < 8; i++) {
             if (gameAreas[i].pid == null) {

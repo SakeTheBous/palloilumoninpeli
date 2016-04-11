@@ -25,7 +25,8 @@ var playerBall = {
     x: 600,
     y: 600,
     radius: 30,
-    color: "red"
+    color: "red",
+    name: "--"
 };
 
 // Muut pelaajat taulukossa, tyhjä aluksi
@@ -109,10 +110,10 @@ function animate()
     /*
     Piirretään löyntipallon sijainti clientillä
     */
-    ctx.beginPath();
+    /*ctx.beginPath();
     ctx.arc(mouse.x, mouse.y, 30, 0, 2 * Math.PI, false);
     ctx.fillStyle = 'green';
-    ctx.fill();
+    ctx.fill();*/
     /*
     Piiretään löyntipallon sijainti serverillä
     */
@@ -120,6 +121,9 @@ function animate()
     ctx.arc(playerBall.x, playerBall.y, playerBall.radius, 0, 2 * Math.PI, false);
     ctx.fillStyle = playerBall.color;
     ctx.fill();
+    ctx.fillStyle = 'white';
+    ctx.font = '15pt Open Sans';
+    ctx.fillText(playerBall.name, playerBall.x - 13, playerBall.y + 7.5);
     /*
     Piiretään muiden pelaajien löyntipallot serverillä
     */
@@ -134,6 +138,9 @@ function animate()
         ctx.arc(others[i].pos.x, others[i].pos.y, 30, 0, 2 * Math.PI, false);
         ctx.fillStyle = others[i].color;
         ctx.fill();
+        ctx.fillStyle = 'white';
+        ctx.font = '15pt Open Sans';
+        ctx.fillText(others[i].name, others[i].pos.x - 13, others[i].pos.y + 7.5);
     }
 
     // Kutsuu animate-funktiota uudelleen ruudun luontaisella päivitysnopeudella
@@ -182,11 +189,40 @@ function getMousePos(canvas, event)
 }
 
 /*
-Funcktio joka aloittaa clientin:
+Funktio joka kysyy käyttäjän nimen ja
+lähettää sen serverille
+*/
+
+function login()
+{
+    var loginElement = document.createElement("div");
+    var loginText = document.createElement("span");
+    var loginInput = document.createElement("input");
+    var loginButton = document.createElement("button");
+    loginInput.type = "text";
+    loginElement.className = 'login';
+    loginText.innerHTML = 'Anna nimikirjaimesi : ';
+    loginElement.appendChild(loginText);
+    loginElement.appendChild(loginInput);
+    loginElement.appendChild(loginButton);
+    loginButton.addEventListener('click', btnEvent);
+    document.body.appendChild(loginElement);
+
+    function btnEvent()
+    {
+        var name = loginInput.value;
+        startClient(name);
+        loginButton.removeEventListener('click', btnEvent, false);
+        loginElement.parentNode.removeChild(loginElement);
+    }
+}
+
+/*
+Funktio joka aloittaa clientin:
 lisää eventlistenerit, aloittaa piirtämisen 
 ja ilmoittaa olevansa valmis serverille
 */
-function startClient()
+function startClient(name)
 {
     canvas.height = height;
     canvas.width = width;
@@ -195,7 +231,7 @@ function startClient()
         mouse = getMousePos(canvas, event);
         // Lähetetään hiiren sijainti serverille ja kerrotaan oma ID, 
         // niin serveri tietää kenen palloa liikuttaa
-        socket.emit('client_update', { pid: socket.io.engine.id, pos: mouse });
+        socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
     });
 
     animate();
@@ -240,6 +276,7 @@ socket.on('update_players', function(players) {
                 playerBall.x = players[socket.io.engine.id].pos.x;
                 playerBall.y = players[socket.io.engine.id].pos.y;
                 playerBall.color = players[socket.io.engine.id].color;
+                playerBall.name = players[socket.io.engine.id].name;
             // Muutoin kyseessä vastustajan pallo
             } else {
                 // Lisätään muiden pelaajien taulukon perälle
@@ -254,4 +291,4 @@ socket.on('update_areas', function(areas) {
 });
 
 // Käynnistetään peli
-startClient();
+login();
