@@ -202,6 +202,7 @@ function login()
     loginInput.type = "text";
     loginElement.className = 'login';
     loginText.innerHTML = 'Anna nimikirjaimesi : ';
+    loginButton.innerHTML = 'Pelaa';
     loginElement.appendChild(loginText);
     loginElement.appendChild(loginInput);
     loginElement.appendChild(loginButton);
@@ -210,7 +211,7 @@ function login()
 
     function btnEvent()
     {
-        var name = loginInput.value;
+        var name = loginInput.value.toUpperCase().substr(0, 2);
         startClient(name);
         loginButton.removeEventListener('click', btnEvent, false);
         loginElement.parentNode.removeChild(loginElement);
