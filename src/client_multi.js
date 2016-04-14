@@ -235,6 +235,11 @@ function startClient(name)
         socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
     });
 
+    canvas.addEventListener("touchmove", function(event) {
+        mouse = getMousePos(canvas, event);
+        socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
+    });
+
     animate();
 }
 
