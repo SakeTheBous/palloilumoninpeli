@@ -106,10 +106,6 @@ function animate()
         drawAreas(gameAreas[i]);
     }
 
-    var isInArea = isInTriangle(mouse.x, mouse.y, gameAreas[0].leftX, gameAreas[0].leftY, gameAreas[0].rightX, gameAreas[0].rightY, gameAreas[0].center.x, gameAreas[0].center.y);
-    if (isInArea) {
-        console.log("GG EZ, TyLoo 4 WIN");
-    }
     /*
     Piirretään pallo
     */
@@ -263,12 +259,34 @@ function startClient(name)
         mouse = getMousePos(canvas, event);
         // Lähetetään hiiren sijainti serverille ja kerrotaan oma ID, 
         // niin serveri tietää kenen palloa liikuttaa
-        socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
+        if (isInTriangle(
+            mouse.x, 
+            mouse.y, 
+            gameAreas[playerBall.area].leftX, 
+            gameAreas[playerBall.area].leftY, 
+            gameAreas[playerBall.area].rightX, 
+            gameAreas[playerBall.area].rightY, 
+            gameAreas[playerBall.area].center.x, 
+            gameAreas[playerBall.area].center.y)) 
+        {
+            socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
+        }
     });
 
     canvas.addEventListener("touchmove", function(event) {
         mouse = getMousePos(canvas, event);
-        socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
+        if (isInTriangle(
+            mouse.x, 
+            mouse.y, 
+            gameAreas[playerBall.area].leftX, 
+            gameAreas[playerBall.area].leftY, 
+            gameAreas[playerBall.area].rightX, 
+            gameAreas[playerBall.area].rightY, 
+            gameAreas[playerBall.area].center.x, 
+            gameAreas[playerBall.area].center.y)) 
+        {
+            socket.emit('client_update', { pid: socket.io.engine.id, name: name, pos: mouse });
+        }
     });
 
     animate();
@@ -314,6 +332,7 @@ socket.on('update_players', function(players) {
                 playerBall.y = players[socket.io.engine.id].pos.y;
                 playerBall.color = players[socket.io.engine.id].color;
                 playerBall.name = players[socket.io.engine.id].name;
+                playerBall.area = players[socket.io.engine.id].area;
             // Muutoin kyseessä vastustajan pallo
             } else {
                 // Lisätään muiden pelaajien taulukon perälle
