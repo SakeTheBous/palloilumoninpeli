@@ -105,6 +105,11 @@ function animate()
     for (var i = 0; i < gameAreasLen; i++) {
         drawAreas(gameAreas[i]);
     }
+
+    var isInArea = isInTriangle(mouse.x, mouse.y, gameAreas[0].leftX, gameAreas[0].leftY, gameAreas[0].rightX, gameAreas[0].rightY, gameAreas[0].center.x, gameAreas[0].center.y);
+    if (isInArea) {
+        console.log("GG EZ, TyLoo 4 WIN");
+    }
     /*
     Piirretään pallo
     */
@@ -175,6 +180,31 @@ function drawAreas(area)
     ctx.lineTo(area.rightX, area.rightY);
     ctx.strokeStyle = "#999999";
     ctx.stroke();
+}
+
+/*
+Funktio joka laskee onko piste kolmion sisällä
+*/
+
+function isInTriangle (px, py, ax, ay, bx, by, cx, cy) {
+    //credit: http://www.blackpawn.com/texts/pointinpoly/default.html
+
+    var v0 = [cx-ax, cy-ay];
+    var v1 = [bx-ax, by-ay];
+    var v2 = [px-ax, py-ay];
+
+    var dot00 = (v0[0] * v0[0]) + (v0[1] * v0[1]);
+    var dot01 = (v0[0] * v1[0]) + (v0[1] * v1[1]);
+    var dot02 = (v0[0] * v2[0]) + (v0[1] * v2[1]);
+    var dot11 = (v1[0] * v1[0]) + (v1[1] * v1[1]);
+    var dot12 = (v1[0] * v2[0]) + (v1[1] * v2[1]);
+
+    var invDenom = 1 / (dot00 * dot11 - dot01 * dot01);
+
+    var u = (dot11 * dot02 - dot01 * dot12) * invDenom;
+    var v = (dot00 * dot12 - dot01 * dot02) * invDenom;
+
+    return ((u >= 0) && (v >= 0) && (u + v < 1));
 }
 
 /*
