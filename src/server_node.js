@@ -371,7 +371,7 @@ function toggleGameState(quit)
                 // jos pelaaja on ehditty poistamaan
                 if (typeof players[i] !== 'undefined') {
                     // Lisätään pelaajan sijainti tiedot playersData objektiin
-                    playersData[players[i].pid] = { pos: players[i].ball.position, name: players[i].name, color: players[i].color };
+                    playersData[players[i].pid] = { pos: players[i].ball.position, name: players[i].name, color: players[i].color, area: players[i].gamearea };
                 }
             }
 
@@ -409,10 +409,12 @@ function Player(pid)
     this.pid = pid;
     this.color = null;
     this.name = "--";
+    this.gamearea = null;
     this.initialize = function() {
         for (var i = 0; i < 8; i++) {
             if (gameAreas[i].pid == null) {
                 gameAreas[i].pid = pid;
+                this.gamearea = i;
                 var tmpX = (gameAreas[i].leftX + gameAreas[i].rightX) / 2;
 
                 if (tmpX == 772.5) {
