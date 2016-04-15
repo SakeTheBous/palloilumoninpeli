@@ -389,6 +389,71 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
     }
 });
 
+Matter.Events.on(engine, 'collisionStart', function(event) {
+    var pairs = event.pairs;
+    // change object colours to show those starting a collision
+    for (var i = 0; i < pairs.length; i++) {
+        var pair = pairs[i];
+        if (pair.bodyA.id == playBall.id) {
+            switch (pair.bodyB.id) {
+                case floor.id:
+                    console.log("MAALI");
+                    break;
+                case roof.id:
+                    console.log("MAALI");
+                    break;
+                case wallLeft.id:
+                    console.log("MAALI");
+                    break;
+                case wallRight.id:
+                    console.log("MAALI");
+                    break;
+                case leftDown.id:
+                    console.log("MAALI");
+                    break;
+                case leftUp.id:
+                    console.log("MAALI");
+                    break;
+                case rightDown.id:
+                    console.log("MAALI");
+                    break;
+                case rightUp.id:
+                    console.log("MAALI");
+                    break;
+            }
+        } else if (pair.bodyB.id == playBall.id) {
+            switch (pair.bodyA.id) {
+                case floor.id:
+                    console.log("MAALI");
+                    break;
+                case roof.id:
+                    console.log("MAALI");
+                    break;
+                case wallLeft.id:
+                    console.log("MAALI");
+                    break;
+                case wallRight.id:
+                    console.log("MAALI");
+                    break;
+                case leftDown.id:
+                    console.log("MAALI");
+                    break;
+                case leftUp.id:
+                    console.log("MAALI");
+                    break;
+                case rightDown.id:
+                    console.log("MAALI");
+                    break;
+                case rightUp.id:
+                    console.log("MAALI");
+                    break;
+            }
+        }
+        pair.bodyA.id;
+        pair.bodyB.render.fillStyle = '#bbbbbb';
+    }
+});
+
 // Lisätään esineet maailmaan
 Matter.World.add(engine.world, [playBall, floor, wallLeft, wallRight, roof, leftDown, leftUp, rightDown, rightUp]);
 
