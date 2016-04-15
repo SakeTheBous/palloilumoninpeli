@@ -41,6 +41,12 @@ function animate()
     Tyhjennetään ruutu
     */
     clear();
+
+    var gameAreasLen = gameAreas.length;
+    for (var i = 0; i < gameAreasLen; i++) {
+        drawAreas(gameAreas[i]);
+    }
+
     /*
     Piirretään seinät
     */
@@ -100,11 +106,6 @@ function animate()
     ctx.lineTo(width/3 * 2 + 24, 27.5);
     ctx.strokeStyle = "black";
     ctx.stroke();
-
-    var gameAreasLen = gameAreas.length;
-    for (var i = 0; i < gameAreasLen; i++) {
-        drawAreas(gameAreas[i]);
-    }
 
     /*
     Piirretään pallo
