@@ -100,6 +100,11 @@ function animate()
     ctx.lineTo(width/3 * 2 + 24, 27.5);
     ctx.strokeStyle = "black";
     ctx.stroke();
+
+    var gameAreasLen = gameAreas.length;
+    for (var i = 0; i < gameAreasLen; i++) {
+        drawAreas(gameAreas[i]);
+    }
     /*
     Piirretään pallo
     */
@@ -127,10 +132,6 @@ function animate()
     /*
     Piiretään muiden pelaajien löyntipallot serverillä
     */
-    var gameAreasLen = gameAreas.length;
-    for (var i = 0; i < gameAreasLen; i++) {
-        drawAreas(gameAreas[i]);
-    }
 
     var othersLen = others.length;
     for (var i = 0; i < othersLen; i++) {
