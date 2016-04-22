@@ -558,12 +558,11 @@ function removePlayer(id)
     }
 
     // Jos pelaaja löytyi poistetaan
-    if (playerIndex !== null && typeof players[playerIndex] !== 'undefined')
-    {
-
+    if (playerIndex !== null && typeof players[playerIndex] !== 'undefined') {
         Matter.Composite.remove(engine.world, players[playerIndex].ball);
         Matter.Composite.remove(engine.world, players[playerIndex].constraint);
         players.splice(playerIndex, 1);
+        io.sockets.emit('u_ded_son', id);
     }
 }
 
