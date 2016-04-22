@@ -262,6 +262,9 @@ function startClient(name)
     canvas.height = height;
     canvas.width = width;
 
+    // Päivitetään gameover muttujaa
+    gameover = false;
+
     canvas.addEventListener("mousemove", function(event) {
         mouse = getMousePos(canvas, event);
         // Lähetetään hiiren sijainti serverille ja kerrotaan oma ID, 
