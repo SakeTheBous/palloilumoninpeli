@@ -560,11 +560,11 @@ function removePlayer(id)
     // Jos pelaaja löytyi poistetaan
     if (playerIndex !== null && typeof players[playerIndex] !== 'undefined')
     {
-        var promise = new Promise(function(resolve, reject) {
-            Matter.Composite.remove(engine.world, players[i].ball);
-            Matter.Composite.remove(engine.world, players[i].constraint);
-            resolve(players.splice(playerIndex, 1));
-        });
+        console.log(players[i].ball);
+        Matter.Composite.remove(engine.world, players[i].ball);
+        Matter.Composite.remove(engine.world, players[i].constraint);
+        console.log(players[i].ball);
+        players.splice(playerIndex, 1);
     }
 }
 
