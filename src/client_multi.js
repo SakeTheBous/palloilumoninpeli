@@ -6,6 +6,8 @@ ctx = canvas.getContext('2d');
 // Piirtoalueen korkeus, leveys
 var height = 800, width = 800;
 
+var gameover = false;
+
 // Hiiren sijainnin koordinaatit tallennettuna
 var mouse = {
     x: 400,
@@ -147,7 +149,11 @@ function animate()
     }
 
     // Kutsuu animate-funktiota uudelleen ruudun luontaisella päivitysnopeudella
-    window.requestAnimationFrame(animate);
+    if (!gameover) {
+        window.requestAnimationFrame(animate);
+    } else {
+        login();
+    }
 }
 
 /*
@@ -301,6 +307,12 @@ jäsenet x ja y
 socket.on('update', function(pos) {
     playBall.x = pos.x;
     playBall.y = pos.y;
+});
+
+socket.on('u_ded_son', function(id) {
+    if (id === socket.io.engine.id) {
+        gameover = true;
+    }
 });
 
 /*
