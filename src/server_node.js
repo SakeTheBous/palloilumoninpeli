@@ -117,6 +117,22 @@ io.on('connection', function(socket) {
         }
     });
 
+    socket.on('death', function() {
+        removePlayer(id);
+    });
+
+    socket.on('rejoin', function() {
+        // Tehdään uusi Player-luokka pelaajalle 
+        // (luokka on lähes täysin sama asia kuin object tai struct C# puolella)
+        var player = new Player(id);
+
+        // Lisätään juuri tehty Player-luokka pelaajien taulukkoon
+        players.push(player);
+
+        // Lisätään pelaajan pallo maailmaan
+        Matter.World.add(engine.world, [player.ball, player.constraint]);
+    });
+
     // Kun WebSocket saa 'pause_game' tapahtuman, laukaisee seuraavan funktion
     socket.on('pause_game', function() {
         toggleGameState(true);
