@@ -296,86 +296,87 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
         var pair = pairs[i];
         if (pair.bodyA.id == playBall.id) {
             switch (pair.bodyB.id) {
-                case floor.id:
-                    if (typeof players[0] !== 'undefined') {
-                        if (players[0].lives > 1) {
-                            players[0].lives--;
-                        } else {
-                            removePlayer(players[0].pid);
+                    case floor.id:
+                        if (typeof players[1] !== 'undefined') {
+                            if (players[1].lives > 1) {
+                                players[1].lives--;
+                            } else {
+                                removePlayer(players[1].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case roof.id:
-                    if (typeof players[1] !== 'undefined') {
-                        if (players[1].lives > 1) {
-                            players[1].lives--;
-                        } else {
-                            removePlayer(players[1].pid);
+                        break;
+                    case roof.id:
+                        if (typeof players[0] !== 'undefined') {
+                            if (players[0].lives > 1) {
+                                players[0].lives--;
+                            } else {
+                                removePlayer(players[0].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case wallLeft.id:
-                    if (typeof players[2] !== 'undefined') {
-                        if (players[2].lives > 1) {
-                            players[2].lives--;
-                        } else {
-                            removePlayer(players[2].pid);
+                        break;
+                    case wallLeft.id:
+                        if (typeof players[2] !== 'undefined') {
+                            if (players[2].lives > 1) {
+                                players[2].lives--;
+                            } else {
+                                removePlayer(players[2].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case wallRight.id:
-                    if (typeof players[3] !== 'undefined') {
-                        if (players[3].lives > 1) {
-                            players[3].lives--;
-                        } else {
-                            removePlayer(players[3].pid);
+                        break;
+                    case wallRight.id:
+                        if (typeof players[3] !== 'undefined') {
+                            if (players[3].lives > 1) {
+                                players[3].lives--;
+                            } else {
+                                removePlayer(players[3].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case leftDown.id:
-                    if (typeof players[4] !== 'undefined') {
-                        if (players[4].lives > 1) {
-                            players[4].lives--;
-                        } else {
-                            removePlayer(players[4].pid);
+                        break;
+                    case leftDown.id:
+                        if (typeof players[4] !== 'undefined') {
+                            if (players[4].lives > 1) {
+                                players[4].lives--;
+                            } else {
+                                removePlayer(players[4].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case leftUp.id:
-                    if (typeof players[5] !== 'undefined') {
-                        if (players[5].lives > 1) {
-                            players[5].lives--;
-                        } else {
-                            removePlayer(players[5].pid);
+                        break;
+                    case leftUp.id:
+                        if (typeof players[5] !== 'undefined') {
+                            if (players[5].lives > 1) {
+                                players[5].lives--;
+                            } else {
+                                removePlayer(players[5].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case rightDown.id:
-                    if (typeof players[6] !== 'undefined') {
-                        if (players[6].lives > 1) {
-                            players[6].lives--;
-                        } else {
-                            removePlayer(players[6].pid);
+                        break;
+                    case rightDown.id:
+                        if (typeof players[6] !== 'undefined') {
+                            if (players[6].lives > 1) {
+                                players[6].lives--;
+                            } else {
+                                removePlayer(players[6].pid);
+                            }
                         }
-                    }
 
-                    break;
-                case rightUp.id:
-                    if (typeof players[7] !== 'undefined') {
-                        if (players[7].lives > 1) {
-                            players[7].lives--;
-                        } else {
-                            removePlayer(players[7].pid);
+                        break;
+                    case rightUp.id:
+                        if (typeof players[7] !== 'undefined') {
+                            if (players[7].lives > 1) {
+                                players[7].lives--;
+                            } else {
+                                removePlayer(players[7].pid);
+                            }
                         }
-                    }
 
-                    break;
+                        break;
+                }
             }
         } else if (pair.bodyB.id == playBall.id) {
             switch (pair.bodyA.id) {
