@@ -337,6 +337,7 @@ var players = {
 }
 */
 socket.on('update_players', function(players) {
+    console.log(socket.io.engine.id);
     // Tyhjennetään ensin muiden pelaajien taulukko
     others = [];
     // Käydään läpi kaikki 'players'-objektin jäsenet
