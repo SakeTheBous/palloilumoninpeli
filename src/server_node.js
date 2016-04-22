@@ -99,41 +99,7 @@ io.on('connection', function(socket) {
     
     // Kun WebSocket suljetaan, tämä laukaisee parametrinä annetun funktion
     socket.on('disconnect', function(player) {
-        console.log('Pelaaja poistui pelista, ID : ' + id);
-        // Otetaan pelaajat-taulukon pituus, niin sitä ei tarvitse for-lauseessa
-        // laskea kokoajan uudelleen
-        var playersLen = players.length;
-        // Pelin sulkeneen pelaajan paikka pelaajat taulukossa
-        var playerIndex = null;
-        // Käydään läpi kaikki pelaajat players-taulukosta ja mikäli ID vastaa
-        // WebSocketin sulkeneen pelaajan ID:tä, tallennetaan paikka playerIndexiin
-        for (var i = 0; i < playersLen; i++) {
-            if (players[i].pid === id) {
-                playerIndex = i;
-                break;
-            }
-        }
-
-        // Käydään läpi pelialueet ja poistetaan pelaaja pelialueelta jos ID vastaa
-        // WebSocketin sulkeneen pelaajan ID:tä
-        var areasLen = gameAreas.length;
-        for (var i = 0; i < areasLen; i++) {
-            if (gameAreas[i].pid === id) {
-                gameAreas[i].pid = null;
-
-                break;
-            }
-        }
-
-        // Jos pelaaja löytyi poistetaan
-        if (playerIndex !== null && typeof players[playerIndex] !== 'undefined')
-        {
-            // Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
-            Matter.Composite.remove(engine.world, players[i].ball);
-            Matter.Composite.remove(engine.world, players[i].constraint);
-            // Poistetaan pelaaja pelaajat taulukosta
-            players.splice(playerIndex, 1);
-        }
+        removePlayer(id);
     });
 
     // Kun WebSocket saa 'client_update' tapahtuman, laukaisee seuraavan funktion
@@ -326,131 +292,175 @@ Matter.Body.setMass(playBall, 10);
 
 Matter.Events.on(engine, 'collisionStart', function(event) {
     var pairs = event.pairs;
-    // change object colours to show those starting a collision
     for (var i = 0; i < pairs.length; i++) {
         var pair = pairs[i];
         if (pair.bodyA.id == playBall.id) {
             switch (pair.bodyB.id) {
                 case floor.id:
-                    console.log("MAALI");
-                    break;
-                case roof.id:
-                    console.log("MAALI");
-                    break;
-                case wallLeft.id:
-                    console.log("MAALI");
-                    break;
-                case wallRight.id:
-                    console.log("MAALI");
-                    break;
-                case leftDown.id:
-                    console.log("MAALI");
-                    break;
-                case leftUp.id:
-                    console.log("MAALI");
-                    break;
-                case rightDown.id:
-                    console.log("MAALI");
-                    break;
-                case rightUp.id:
-                    console.log("MAALI");
-                    break;
-            }
-        } else if (pair.bodyB.id == playBall.id) {
-            switch (pair.bodyA.id) {
-                case floor.id:
-                    console.log("MAALI");
-                    break;
-                case roof.id:
-                    console.log("MAALI");
-                    break;
-                case wallLeft.id:
-                    console.log("MAALI");
-                    break;
-                case wallRight.id:
-                    console.log("MAALI");
-                    break;
-                case leftDown.id:
-                    console.log("MAALI");
-                    break;
-                case leftUp.id:
-                    console.log("MAALI");
-                    break;
-                case rightDown.id:
-                    console.log("MAALI");
-                    break;
-                case rightUp.id:
-                    console.log("MAALI");
-                    break;
-            }
-        }
-        pair.bodyA.id;
-        pair.bodyB.render.fillStyle = '#bbbbbb';
-    }
-});
+                    if (typeof players[0] !== 'undefined') {
+                        if (players[0].lives > 1) {
+                            players[0].lives--;
+                        } else {
+                            removePlayer(players[0].pid);
+                        }
+                    }
 
-Matter.Events.on(engine, 'collisionStart', function(event) {
-    var pairs = event.pairs;
-    // change object colours to show those starting a collision
-    for (var i = 0; i < pairs.length; i++) {
-        var pair = pairs[i];
-        if (pair.bodyA.id == playBall.id) {
-            switch (pair.bodyB.id) {
-                case floor.id:
-                    console.log("MAALI");
                     break;
                 case roof.id:
-                    console.log("MAALI");
+                    if (typeof players[1] !== 'undefined') {
+                        if (players[1].lives > 1) {
+                            players[1].lives--;
+                        } else {
+                            removePlayer(players[1].pid);
+                        }
+                    }
+
                     break;
                 case wallLeft.id:
-                    console.log("MAALI");
+                    if (typeof players[2] !== 'undefined') {
+                        if (players[2].lives > 1) {
+                            players[2].lives--;
+                        } else {
+                            removePlayer(players[2].pid);
+                        }
+                    }
+
                     break;
                 case wallRight.id:
-                    console.log("MAALI");
+                    if (typeof players[3] !== 'undefined') {
+                        if (players[3].lives > 1) {
+                            players[3].lives--;
+                        } else {
+                            removePlayer(players[3].pid);
+                        }
+                    }
+
                     break;
                 case leftDown.id:
-                    console.log("MAALI");
+                    if (typeof players[4] !== 'undefined') {
+                        if (players[4].lives > 1) {
+                            players[4].lives--;
+                        } else {
+                            removePlayer(players[4].pid);
+                        }
+                    }
+
                     break;
                 case leftUp.id:
-                    console.log("MAALI");
+                    if (typeof players[5] !== 'undefined') {
+                        if (players[5].lives > 1) {
+                            players[5].lives--;
+                        } else {
+                            removePlayer(players[5].pid);
+                        }
+                    }
+
                     break;
                 case rightDown.id:
-                    console.log("MAALI");
+                    if (typeof players[6] !== 'undefined') {
+                        if (players[6].lives > 1) {
+                            players[6].lives--;
+                        } else {
+                            removePlayer(players[6].pid);
+                        }
+                    }
+
                     break;
                 case rightUp.id:
-                    console.log("MAALI");
+                    if (typeof players[7] !== 'undefined') {
+                        if (players[7].lives > 1) {
+                            players[7].lives--;
+                        } else {
+                            removePlayer(players[7].pid);
+                        }
+                    }
+
                     break;
             }
         } else if (pair.bodyB.id == playBall.id) {
             switch (pair.bodyA.id) {
                 case floor.id:
-                    console.log("MAALI");
+                    if (typeof players[0] !== 'undefined') {
+                        if (players[0].lives > 1) {
+                            players[0].lives--;
+                        } else {
+                            removePlayer(players[0].pid);
+                        }
+                    }
+
                     break;
                 case roof.id:
-                    console.log("MAALI");
+                    if (typeof players[1] !== 'undefined') {
+                        if (players[1].lives > 1) {
+                            players[1].lives--;
+                        } else {
+                            removePlayer(players[1].pid);
+                        }
+                    }
+
                     break;
                 case wallLeft.id:
-                    console.log("MAALI");
+                    if (typeof players[2] !== 'undefined') {
+                        if (players[2].lives > 1) {
+                            players[2].lives--;
+                        } else {
+                            removePlayer(players[2].pid);
+                        }
+                    }
+
                     break;
                 case wallRight.id:
-                    console.log("MAALI");
+                    if (typeof players[3] !== 'undefined') {
+                        if (players[3].lives > 1) {
+                            players[3].lives--;
+                        } else {
+                            removePlayer(players[3].pid);
+                        }
+                    }
+
                     break;
                 case leftDown.id:
-                    console.log("MAALI");
+                    if (typeof players[4] !== 'undefined') {
+                        if (players[4].lives > 1) {
+                            players[4].lives--;
+                        } else {
+                            removePlayer(players[4].pid);
+                        }
+                    }
+
                     break;
                 case leftUp.id:
-                    console.log("MAALI");
+                    if (typeof players[5] !== 'undefined') {
+                        if (players[5].lives > 1) {
+                            players[5].lives--;
+                        } else {
+                            removePlayer(players[5].pid);
+                        }
+                    }
+
                     break;
                 case rightDown.id:
-                    console.log("MAALI");
+                    if (typeof players[6] !== 'undefined') {
+                        if (players[6].lives > 1) {
+                            players[6].lives--;
+                        } else {
+                            removePlayer(players[6].pid);
+                        }
+                    }
+
                     break;
                 case rightUp.id:
-                    console.log("MAALI");
+                    if (typeof players[7] !== 'undefined') {
+                        if (players[7].lives > 1) {
+                            players[7].lives--;
+                        } else {
+                            removePlayer(players[7].pid);
+                        }
+                    }
+
                     break;
             }
         }
-        pair.bodyA.id;
-        pair.bodyB.render.fillStyle = '#bbbbbb';
     }
 });
 
@@ -519,6 +529,45 @@ function toggleGameState(quit)
     }
 }
 
+function removePlayer(id)
+{
+    console.log('Pelaaja poistui pelista, ID : ' + id);
+    // Otetaan pelaajat-taulukon pituus, niin sitä ei tarvitse for-lauseessa
+    // laskea kokoajan uudelleen
+    var playersLen = players.length;
+    // Pelin sulkeneen pelaajan paikka pelaajat taulukossa
+    var playerIndex = null;
+    // Käydään läpi kaikki pelaajat players-taulukosta ja mikäli ID vastaa
+    // WebSocketin sulkeneen pelaajan ID:tä, tallennetaan paikka playerIndexiin
+    for (var i = 0; i < playersLen; i++) {
+        if (players[i].pid === id) {
+            playerIndex = i;
+            break;
+        }
+    }
+
+    // Käydään läpi pelialueet ja poistetaan pelaaja pelialueelta jos ID vastaa
+    // WebSocketin sulkeneen pelaajan ID:tä
+    var areasLen = gameAreas.length;
+    for (var i = 0; i < areasLen; i++) {
+        if (gameAreas[i].pid === id) {
+            gameAreas[i].pid = null;
+
+            break;
+        }
+    }
+
+    // Jos pelaaja löytyi poistetaan
+    if (playerIndex !== null && typeof players[playerIndex] !== 'undefined')
+    {
+        // Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
+        Matter.Composite.remove(engine.world, players[i].ball);
+        Matter.Composite.remove(engine.world, players[i].constraint);
+        // Poistetaan pelaaja pelaajat taulukosta
+        players.splice(playerIndex, 1);
+    }
+}
+
 /*
 Player-luokka
 JavaScriptissä voidaan tehdä luokka funktiona,
@@ -540,6 +589,7 @@ function Player(pid)
     this.color = null;
     this.name = "--";
     this.gamearea = null;
+    this.lives = 3;
     this.initialize = function() {
         for (var i = 0; i < 8; i++) {
             if (gameAreas[i].pid == null) {
