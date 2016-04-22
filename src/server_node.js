@@ -380,21 +380,21 @@ Matter.Events.on(engine, 'collisionStart', function(event) {
         } else if (pair.bodyB.id == playBall.id) {
             switch (pair.bodyA.id) {
                 case floor.id:
-                    if (typeof players[0] !== 'undefined') {
-                        if (players[0].lives > 1) {
-                            players[0].lives--;
-                        } else {
-                            removePlayer(players[0].pid);
-                        }
-                    }
-
-                    break;
-                case roof.id:
                     if (typeof players[1] !== 'undefined') {
                         if (players[1].lives > 1) {
                             players[1].lives--;
                         } else {
                             removePlayer(players[1].pid);
+                        }
+                    }
+
+                    break;
+                case roof.id:
+                    if (typeof players[0] !== 'undefined') {
+                        if (players[0].lives > 1) {
+                            players[0].lives--;
+                        } else {
+                            removePlayer(players[0].pid);
                         }
                     }
 
@@ -562,9 +562,10 @@ function removePlayer(id)
     {
         // Poistetaan pelaajan pallo ja constraint (joka vetää palloa hiiren sijaintiin)
         Matter.Composite.remove(engine.world, players[i].ball);
-        Matter.Composite.remove(engine.world, players[i].constraint);
-        // Poistetaan pelaaja pelaajat taulukosta
-        players.splice(playerIndex, 1);
+        Matter.Composite.remove(engine.world, players[i].constraint).then(function(playerIndex) {
+            // Poistetaan pelaaja taulukosta
+            players.splice(playerIndex, 1);
+        });
     }
 }
 
