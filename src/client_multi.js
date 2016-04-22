@@ -152,8 +152,8 @@ function animate()
     if (!gameover) {
         window.requestAnimationFrame(animate);
     } else {
-        socket.disconnect();
-        socket = io();
+        socket.emit('death');
+        socket.emit('rejoin');
         login();
     }
 }
